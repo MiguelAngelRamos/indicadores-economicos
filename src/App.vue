@@ -1,25 +1,35 @@
 <template>
   <div id="app">
-      <select  v-model="indicador" class="form-control form-control-lg" name="indicador">
-        <option v-for="ind in indicadoresEconomicos" v-bind:key="ind.codigo">
-          {{ind.codigo  }}
-        </option>
-      </select>
-<spinner v-show="loading"/>
-  <table v-show="indicador != '' && !loading" class="container table mt-2">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">Fecha</th>
-        <th scope="col">Valor</th>
+    <div class="container mt-5">
+      <div class="form-group">
+        <label> <h3>Selecciona el Indicador</h3></label>
+        <select  v-model="indicador" class="form-control form-control-lg" name="indicador">
+          <option v-for="ind in indicadoresEconomicos" v-bind:key="ind.codigo">
+            {{ind.codigo}}
+          </option>
+        </select>
+      </div>
+
+    <spinner v-show="loading"/>
+    <div  v-show="indicador != '' && !loading" >
+      <h4>Indicador : {{ datos.nombre }}</h4>
+      <h5>Unidad de medida: {{ datos.unidad_medida}}</h5>
+    </div>
+    <table v-show="indicador != '' && !loading" class="container table mt-2">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Fecha</th>
+          <th scope="col">Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="d in datos.serie" :key="d.fecha">
+          <th scope="row">{{d.fecha | fecha}}</th>
+          <td>{{d.valor}}</td>
       </tr>
-    </thead>
-    <tbody>
-      <tr v-for="d in datos.serie" :key="d.fecha">
-        <th scope="row">{{d.fecha | fecha}}</th>
-        <td>{{d.valor}}</td>
-    </tr>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+</div>
   </div>
 
 </template>
